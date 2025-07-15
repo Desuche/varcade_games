@@ -1,4 +1,4 @@
-FROM node:16-slim
+FROM node:latest
 
 RUN apt-get update
 RUN apt-get install git -y

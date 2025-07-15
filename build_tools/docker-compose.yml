@@ -137,7 +137,7 @@ services:
       kompose.image-pull-policy: Never
   prometheus:
     container_name: "prometheus"
-    image: prom/prometheus:v2.0.0
+    image: prom/prometheus:v2.53.5
     volumes:
       - ./prometheus/:/etc/prometheus/:Z
       - prometheus_data:/prometheus
