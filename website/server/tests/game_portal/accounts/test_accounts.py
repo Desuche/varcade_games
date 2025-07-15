@@ -59,3 +59,14 @@ class TestAccounts:
         assert response.status_code == status.HTTP_400_BAD_REQUEST
         assert Account.objects.count() == 1
         assert len(response.data["password"]) == 1
+
+    def test_create_user_with_invalid_email(self, api_client):
+        data1 = {"username":"foobar", "email":"des @example.com", "password":"asdf"}
+        data2 = {"username":"foobar", "email":"des-test@example.com", "password":"asdf"}
+
+        response1 = api_client.post(self.create_url, data1, format="json")
+        response2 = api_client.post(self.create_url, data2, format="json")
+
+        assert response1.status_code == status.HTTP_400_BAD_REQUEST
+        assert response2.status_code == status.HTTP_400_BAD_REQUEST
+        assert Account.objects.count() == 1
