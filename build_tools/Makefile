@@ -57,3 +57,7 @@ kube_build_env:
 
 kube_apply:
 	kubectl apply -f ./kube_config
+
+
+shell:
+	docker exec -it ${a} bash
