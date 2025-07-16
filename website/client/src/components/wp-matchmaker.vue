@@ -66,6 +66,12 @@
 
                         </div>
 
+                        <div v-if="matchmakerError != ''" class="errors row" style="padding: 1em;">
+                            <p>
+                                {{ matchmakerError }}
+                            </p>
+                        </div>
+
                     </div>
 
                     <div class="row" v-else>
@@ -101,7 +107,8 @@
                     // {creatorName: "kev", game_id: "test"}
                 ],
                 icoPlayerVS: faUserCircle,
-                icoCloseModal: faTimes
+                icoCloseModal: faTimes,
+                matchmakerError: ''
             }
         },
         computed: {
@@ -147,6 +154,10 @@
             },
             
             createGame: function () {
+                if (this.matchmakerError != ''){
+                    this.matchmakerError = ''
+                }
+
                 this.matchmaker.createGame(
                     response => {
                         console.log(`Create game => ${response}`)
@@ -161,11 +172,16 @@
                     }, 
                     error => {
                         console.log('Game creation failed => ' + error)
+                        this.matchmakerError = error
                     }
                 )
             },
 
             joinGame: function (targetGameId) {
+                if (this.matchmakerError != ''){
+                    this.matchmakerError = ''
+                }
+                
                 this.matchmaker.joinGame(targetGameId,
                     response => {
                         console.log(`Join game => ${response}`)
@@ -180,6 +196,7 @@
                     }, 
                     error => {
                         console.log(`Game creation failed => ${error}`)
+                        this.matchmakerError = error
                     }
                 )
             }
@@ -254,6 +271,12 @@
     .buttons {
         height: 100px;
         margin-top: 2em;
+    }
+
+    .errors {
+        color: red;
+        align-items: center;
+        justify-content: center;
     }
 
 
