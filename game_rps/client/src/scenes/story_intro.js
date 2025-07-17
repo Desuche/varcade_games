@@ -91,7 +91,6 @@ class StoryIntroScene extends Phaser.Scene {
       this.loreTween.complete()
     }
   }
-
 }
 
 export { StoryIntroScene }
