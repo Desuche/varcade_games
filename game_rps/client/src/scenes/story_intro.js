@@ -87,7 +87,7 @@ class StoryIntroScene extends Phaser.Scene {
   }
 
   conditionallyTriggerSkipBasedOnSkipState () {
-    if (this.saveGameData.skipStoryIntro === true){
+    if (this.saveGameData.skipStoryIntro === true) {
       this.loreTween.complete()
     }
   }
