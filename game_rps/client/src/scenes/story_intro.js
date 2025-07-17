@@ -6,6 +6,8 @@ import { lore } from 'rps-game-engine'
 
 import { getSceneLayoutData } from '../game_data/layout.js'
 
+import { getSaveGameData, writeSaveGameData } from '../game_data/save_data.js'
+
 class StoryIntroScene extends Phaser.Scene {
   constructor () {
     super({ key: 'StoryIntroScene' })
@@ -14,6 +16,7 @@ class StoryIntroScene extends Phaser.Scene {
   init (data) {
     this.gameInterface = data.gameInterface
     this.clickCount = 0
+    this.saveGameData = getSaveGameData()
   }
 
   create () {
@@ -48,9 +51,12 @@ class StoryIntroScene extends Phaser.Scene {
     this.input.on('pointerup', () => {
       this.clickCount++
       if (this.clickCount >= 3) {
+        this.saveSkipStateToLocalStorage()
         this.loreTween.complete()
       }
     })
+
+    this.conditionallyTriggerSkipBasedOnSkipState()
   }
 
   addSkipButton () {
@@ -64,6 +70,7 @@ class StoryIntroScene extends Phaser.Scene {
       null,
       0xFFFFFF,
       () => {
+        this.saveSkipStateToLocalStorage()
         this.loreTween.complete()
       }).setOrigin(
       skipButtonLayout.originX, skipButtonLayout.originY
@@ -73,6 +80,18 @@ class StoryIntroScene extends Phaser.Scene {
       1.5
     ))
   }
+
+  saveSkipStateToLocalStorage(){
+    this.saveGameData.skipStoryIntro = true
+    writeSaveGameData()
+  }
+
+  conditionallyTriggerSkipBasedOnSkipState() {
+    if (this.saveGameData.skipStoryIntro == true){
+      this.loreTween.complete()
+    }
+  }
+
 }
 
 export { StoryIntroScene }
